@@ -1,0 +1,23 @@
+/* Project: New Zealand Major Seismic Activity Analysis
+   Description: Analyzing significant earthquakes (Magnitude 5.0+) 
+                around New Zealand to identify yearly frequency and intensity trends.
+*/
+
+SELECT
+    year,
+    -- Count the number of significant earthquakes
+    COUNT(*) AS earthquake_count,
+    -- Find the strongest earthquake of that year
+    MAX(magnitude) AS max_magnitude,
+    -- Calculate the average magnitude of significant events
+    ROUND(AVG(magnitude), 2) AS avg_magnitude
+FROM
+    `bigquery-public-data.noaa_significant_earthquakes.earthquakes`
+WHERE
+    country = 'NEW ZEALAND'
+    AND year BETWEEN 2000 AND 2026
+    AND magnitude >= 5.0
+GROUP BY
+    year
+ORDER BY
+    year DESC;
